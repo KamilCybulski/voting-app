@@ -26,6 +26,14 @@ class LoginSignup extends React.Component {
     this.setState({ slideIndex: value });
   }
 
+  handleEmailChange = (e) => {
+    this.setState({ email: e.target.value });
+  }
+
+  handlePassChange = (e) => {
+    this.setState({ pass: e.target.value });
+  }
+
   /**
    * Signup and login form.
    * @return {object} React element
@@ -43,9 +51,20 @@ class LoginSignup extends React.Component {
 
     const loginForm = (
       <div className="width300">
-        <TextField hintText="Email" style={textFieldStyle} />
+        <TextField
+          hintText="Email"
+          style={textFieldStyle}
+          value={this.state.email}
+          onChange={this.handleEmailChange}
+        />
         <br />
-        <TextField hintText="Password" type="password" style={textFieldStyle} />
+        <TextField
+          hintText="Password"
+          type="password"
+          style={textFieldStyle}
+          value={this.state.pass}
+          onChange={this.handlePassChange}
+        />
         <br />
         <FlatButton label="Log in" style={buttonStyle} />
       </div>
@@ -53,9 +72,20 @@ class LoginSignup extends React.Component {
 
     const signupForm = (
       <div className="width300">
-        <TextField hintText="Email" style={textFieldStyle} />
+        <TextField
+          hintText="Email"
+          style={textFieldStyle}
+          value={this.state.email}
+          onChange={this.handleEmailChange}
+        />
         <br />
-        <TextField hintText="Password" type="password" style={textFieldStyle} />
+        <TextField
+          hintText="Password"
+          type="password"
+          style={textFieldStyle}
+          value={this.state.pass}
+          onChange={this.handlePassChange}
+        />
         <br />
         <FlatButton label="Sign up" style={buttonStyle} />
       </div>
