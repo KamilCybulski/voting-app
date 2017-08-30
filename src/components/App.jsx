@@ -14,7 +14,6 @@ const muiTheme = getMuiTheme({
   palette: {
     primary1Color: pink500,
     textColor: fullWhite,
-    alternateTextColor: darkBlack,
   },
 });
 
