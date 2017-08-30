@@ -117,8 +117,8 @@ class LoginSignup extends React.Component {
           value={this.state.pass}
           onChange={this.handlePassChange}
         />
-        {errorMessage}
         <br />
+        {errorMessage}
         <RaisedButton
           label="Log in"
           primary

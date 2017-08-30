@@ -75,10 +75,11 @@ class App extends React.Component {
     this.setState({ logoutDialogOpen: false });
   }
 
-/**
- * render
- * @return {object} React Element
- */
+
+  /**
+   * render
+   * @returns {object} React element
+   */
   render() {
     const userLoggedIn = !!this.state.user;
 
