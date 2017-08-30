@@ -1,12 +1,15 @@
 import React from 'react';
-import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
+
 
 class LoginSignup extends React.Component {
 
   /**
-   * Email and pass both hold values for corresponding TextFields
+   * Email and pass both hold values for corresponding TextFields.
+   * slideIndex controls sliding tabs.
    * @constructor
    */
   constructor() {
@@ -15,7 +18,12 @@ class LoginSignup extends React.Component {
     this.state = {
       email: '',
       pass: '',
+      slideIndex: 0,
     };
+  }
+
+  handleSlideIndexChange = (value) => {
+    this.setState({ slideIndex: value });
   }
 
   /**
@@ -23,29 +31,55 @@ class LoginSignup extends React.Component {
    * @return {object} React element
    */
   render() {
+    const textFieldStyle = {
+      width: '300px',
+      marginTop: '15px',
+    };
+
+    const buttonStyle = {
+      width: '300px',
+      marginTop: '10px',
+    };
+
+    const loginForm = (
+      <div className="width300">
+        <TextField hintText="Email" style={textFieldStyle} />
+        <br />
+        <TextField hintText="Password" type="password" style={textFieldStyle} />
+        <br />
+        <FlatButton label="Log in" style={buttonStyle} />
+      </div>
+    );
+
+    const signupForm = (
+      <div className="width300">
+        <TextField hintText="Email" style={textFieldStyle} />
+        <br />
+        <TextField hintText="Password" type="password" style={textFieldStyle} />
+        <br />
+        <FlatButton label="Sign up" style={buttonStyle} />
+      </div>
+    );
+
     return (
       <div className="center-items fullscreen">
-        <Paper
-          zDepth={2}
-          className="standard-width standard-height flex-column"
+        <Tabs
+          onChange={this.handleSlideIndexChange}
+          value={this.state.slideIndex}
+          className="width300"
         >
-          <h2>Login</h2>
+          <Tab label="Log in" value={0} />
+          <Tab label="Sign up" value={1} />
+        </Tabs>
 
-          <TextField
-            hintText="Email"
-          /><br />
-          <br />
-
-          <TextField
-            hintText="Password"
-            type="password"
-          /><br />
-
-          <div className="flex-row">
-            <FlatButton label="Cancel" />
-            <FlatButton label="Submit" />
-          </div>
-        </Paper>
+        <SwipeableViews
+          index={this.state.slideIndex}
+          onChangeIndex={this.handleSlideIndexChange}
+          className="width300"
+        >
+          {loginForm}
+          {signupForm}
+        </SwipeableViews>
       </div>
     );
   }
@@ -53,4 +87,3 @@ class LoginSignup extends React.Component {
 
 
 export default LoginSignup;
-
