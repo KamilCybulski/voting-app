@@ -10,3 +10,39 @@
   align-items: center;
 }
 
+.flex-column {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.center-items {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/*===================================================
+                      Paddings
+===================================================*/
+.padding-top-100 {
+  padding-top: 100px;
+}
+
+/*===================================================
+                      Dimensions
+===================================================*/
+.fullscreen {
+  width: 100%;
+  height: 80vh;
+}
+
+.standard-width {
+  width: 300px;
+}
+
+.standard-height {
+  height: 400px;
+}

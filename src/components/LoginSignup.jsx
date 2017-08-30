@@ -1,13 +1,56 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
-const LoginSignup = () => (
-  <div>
-    This is login / signup panel.
-  </div>
-);
+class LoginSignup extends React.Component {
 
-LoginSignup.propTypes = {
-};
+  /**
+   * Email and pass both hold values for corresponding TextFields
+   * @constructor
+   */
+  constructor() {
+    super();
+
+    this.state = {
+      email: '',
+      pass: '',
+    };
+  }
+
+  /**
+   * Signup and login form.
+   * @return {object} React element
+   */
+  render() {
+    return (
+      <div className="center-items fullscreen">
+        <Paper
+          zDepth={2}
+          className="standard-width standard-height flex-column"
+        >
+          <h2>Login</h2>
+
+          <TextField
+            hintText="Email"
+          /><br />
+          <br />
+
+          <TextField
+            hintText="Password"
+            type="password"
+          /><br />
+
+          <div className="flex-row">
+            <FlatButton label="Cancel" />
+            <FlatButton label="Submit" />
+          </div>
+        </Paper>
+      </div>
+    );
+  }
+}
+
 
 export default LoginSignup;
+
