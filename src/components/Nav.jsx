@@ -5,14 +5,14 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
 const guestNavButtons = (
-  <div className="navButtons">
+  <div>
     <Link to="/"><FlatButton label="Home" /></Link>
     <Link to="/authentication"><FlatButton label="Login / Signup" /></Link>
   </div>
 );
 
 const userNavButtons = (
-  <div className="navButtons">
+  <div>
     <Link to="/"><FlatButton label="Home" /></Link>
     <Link to="/user/polls"><FlatButton label="My polls" /></Link>
     <FlatButton label="Logout" />
