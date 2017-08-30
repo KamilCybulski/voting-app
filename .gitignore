@@ -1,0 +1,12 @@
+### Logs ###
+logs
+*.log
+
+### Dependencies ###
+node_modules
+
+### Build ###
+build
+
+### Config ###
+config.js
