@@ -3,6 +3,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import firebase from 'firebase';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Nav from './Nav';
 import PollsGrid from './PollsGrid';
@@ -15,8 +17,9 @@ injectTapEventPlugin();
 class App extends React.Component {
   /**
    * Initiates the state.
-   * Polls holds information about all the polls stored in the DB.
-   * User holds information about the currently logged used. Null if not logged.
+   * Polls holds information about all the polls stored in the DB;
+   * User(object || null) holds information about the currently logged user;
+   * logoutDialogOpen(boolean) controls the logOut dialog;
    * @constructor
    */
   constructor() {
@@ -25,27 +28,30 @@ class App extends React.Component {
     this.state = {
       polls: null,
       user: null,
+      logoutDialogOpen: false,
     };
   }
 
-  /**
-   * Change state every time user logs in or logs out.
-   * @returns {undefined}
-   */
   componentDidMount = () => {
     const auth = firebase.auth();
-
     this.authListener = auth.onAuthStateChanged((user) => {
       this.setState({ user });
     });
   }
 
-  /**
-   * Remove all the event listeners.
-   * @returns {undefined}
-   */
   componentWillUnmount = () => {
     this.authListener.off();
+  }
+
+  logOut = () => {
+    firebase.auth().signOut()
+      .then(() => {
+        this.setState({ logoutDialogOpen: true });
+      });
+  }
+
+  closeLogoutDialog = () => {
+    this.setState({ logoutDialogOpen: false });
   }
 
 /**
@@ -54,11 +60,15 @@ class App extends React.Component {
   render() {
     const userLoggedIn = !!this.state.user;
 
+    const logoutActions = [
+      <RaisedButton label="OK" primary onTouchTap={this.closeLogoutDialog} />,
+    ];
+
     return (
       <MuiThemeProvider>
         <HashRouter>
           <div>
-            <Nav userLoggedIn={userLoggedIn} />
+            <Nav userLoggedIn={userLoggedIn} logOut={this.logOut} />
             <main>
               <Switch>
                 <Route exact path="/" component={PollsGrid} />
@@ -67,6 +77,17 @@ class App extends React.Component {
                 <Route path="/poll/:id" component={ViewPoll} />
               </Switch>
             </main>
+
+            <Dialog
+              className="width300"
+              title="See you!"
+              open={this.state.logoutDialogOpen}
+              modal={false}
+              actions={logoutActions}
+              onRequestClose={this.closeLogoutDialog}
+            >
+              You have been logged out
+            </Dialog>
           </div>
         </HashRouter>
       </MuiThemeProvider>

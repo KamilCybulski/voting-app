@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
 import firebase from 'firebase';
@@ -110,8 +110,9 @@ class LoginSignup extends React.Component {
         />
         {this.state.errMsg}
         <br />
-        <FlatButton
+        <RaisedButton
           label="Log in"
+          primary
           style={buttonStyle}
           onTouchTap={this.logIn}
         />
@@ -136,8 +137,9 @@ class LoginSignup extends React.Component {
         />
         <br />
         {this.state.errMsg}
-        <FlatButton
+        <RaisedButton
           label="Sign up"
+          primary
           style={buttonStyle}
           onTouchTap={this.signUp}
         />
