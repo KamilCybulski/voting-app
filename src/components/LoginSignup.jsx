@@ -3,13 +3,16 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import SwipeableViews from 'react-swipeable-views';
+import firebase from 'firebase';
 
 
 class LoginSignup extends React.Component {
 
   /**
-   * Email and pass both hold values for corresponding TextFields.
-   * slideIndex controls sliding tabs.
+   * email(string) holds value for email TextField
+   * pass(string) holds value form password TextField
+   * errMsg(string) holds any potential error message recieved from database;
+   * slideIndex(number [0,1]) controls sliding tabs;
    * @constructor
    */
   constructor() {
@@ -18,6 +21,7 @@ class LoginSignup extends React.Component {
     this.state = {
       email: '',
       pass: '',
+      errMsg: '',
       slideIndex: 0,
     };
   }
@@ -32,6 +36,45 @@ class LoginSignup extends React.Component {
 
   handlePassChange = (e) => {
     this.setState({ pass: e.target.value });
+  }
+
+  /**
+   * set state.email to empty string;
+   * set state.pass to empty string;
+   * @returns {undefined}
+   */
+  clearForm = () => {
+    this.setState({ email: '', pass: '' });
+  }
+
+  /**
+   * Create a new user account
+   * @returns {Promise} Contains a user
+   */
+  signUp = () => {
+    const auth = firebase.auth();
+    const email = this.state.email;
+    const pass = this.state.pass;
+    auth.createUserWithEmailAndPassword(email, pass)
+      .catch((err) => {
+        this.setState({ errMsg: err.message });
+      });
+    this.clearForm();
+  }
+
+  /**
+   * Sign in a user
+   * @returns {Promise} Contains a user
+   */
+  logIn = () => {
+    const auth = firebase.auth();
+    const email = this.state.email;
+    const pass = this.state.pass;
+    auth.signInWithEmailAndPassword(email, pass)
+      .catch((err) => {
+        this.setState({ errMsg: err.message });
+      });
+    this.clearForm();
   }
 
   /**
@@ -65,8 +108,13 @@ class LoginSignup extends React.Component {
           value={this.state.pass}
           onChange={this.handlePassChange}
         />
+        {this.state.errMsg}
         <br />
-        <FlatButton label="Log in" style={buttonStyle} />
+        <FlatButton
+          label="Log in"
+          style={buttonStyle}
+          onTouchTap={this.logIn}
+        />
       </div>
     );
 
@@ -87,7 +135,12 @@ class LoginSignup extends React.Component {
           onChange={this.handlePassChange}
         />
         <br />
-        <FlatButton label="Sign up" style={buttonStyle} />
+        {this.state.errMsg}
+        <FlatButton
+          label="Sign up"
+          style={buttonStyle}
+          onTouchTap={this.signUp}
+        />
       </div>
     );
 

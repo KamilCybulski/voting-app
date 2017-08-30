@@ -2,6 +2,7 @@ import React from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import firebase from 'firebase';
 
 import Nav from './Nav';
 import PollsGrid from './PollsGrid';
@@ -25,6 +26,26 @@ class App extends React.Component {
       polls: null,
       user: null,
     };
+  }
+
+  /**
+   * Change state every time user logs in or logs out.
+   * @returns {undefined}
+   */
+  componentDidMount = () => {
+    const auth = firebase.auth();
+
+    this.authListener = auth.onAuthStateChanged((user) => {
+      this.setState({ user });
+    });
+  }
+
+  /**
+   * Remove all the event listeners.
+   * @returns {undefined}
+   */
+  componentWillUnmount = () => {
+    this.authListener.off();
   }
 
 /**
