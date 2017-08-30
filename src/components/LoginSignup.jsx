@@ -92,6 +92,12 @@ class LoginSignup extends React.Component {
       marginTop: '10px',
     };
 
+    const errorMessage = (
+      <div className="width300 center-items text-red padding10 border-box text-center">
+        {this.state.errMsg}
+      </div>
+    );
+
     const loginForm = (
       <div className="width300">
         <TextField
@@ -108,7 +114,7 @@ class LoginSignup extends React.Component {
           value={this.state.pass}
           onChange={this.handlePassChange}
         />
-        {this.state.errMsg}
+        {errorMessage}
         <br />
         <RaisedButton
           label="Log in"
@@ -136,7 +142,7 @@ class LoginSignup extends React.Component {
           onChange={this.handlePassChange}
         />
         <br />
-        {this.state.errMsg}
+        {errorMessage}
         <RaisedButton
           label="Sign up"
           primary
