@@ -2,7 +2,7 @@ import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { pink500, fullWhite, darkBlack } from 'material-ui/styles/colors';
+import { pink500, fullWhite } from 'material-ui/styles/colors';
 
 import Nav from './Nav';
 import PollsGrid from './PollsGrid';
@@ -29,7 +29,9 @@ class App extends React.Component {
 
     this.state = {
       polls: null,
-      user: null,
+      user: {
+        name: 'zenon',
+      },
     };
   }
 
@@ -37,11 +39,13 @@ class App extends React.Component {
  * @return {object} React Element
  */
   render() {
+    const userLoggedIn = !!this.state.user;
+
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
         <HashRouter>
           <div>
-            <Nav />
+            <Nav userLoggedIn={userLoggedIn} />
             <main>
               <div>This is App.</div>
 
