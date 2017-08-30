@@ -1,4 +1,5 @@
 import React from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -16,6 +17,8 @@ const muiTheme = getMuiTheme({
     textColor: fullWhite,
   },
 });
+
+injectTapEventPlugin();
 
 class App extends React.Component {
   /**
@@ -47,8 +50,6 @@ class App extends React.Component {
           <div>
             <Nav userLoggedIn={userLoggedIn} />
             <main>
-              <div>This is App.</div>
-
               <Switch>
                 <Route exact path="/" component={PollsGrid} />
                 <Route path="/authentication" component={LoginSignup} />
