@@ -1,11 +1,22 @@
 import React from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { pink500, fullWhite, darkBlack } from 'material-ui/styles/colors';
 
 import Nav from './Nav';
 import PollsGrid from './PollsGrid';
 import LoginSignup from './LoginSignup';
 import MyPolls from './MyPolls';
 import ViewPoll from './ViewPoll';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: pink500,
+    textColor: fullWhite,
+    alternateTextColor: darkBlack,
+  },
+});
 
 class App extends React.Component {
   /**
@@ -28,21 +39,23 @@ class App extends React.Component {
  */
   render() {
     return (
-      <HashRouter>
-        <div>
-          <Nav />
-          <main>
-            <div>This is App.</div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <HashRouter>
+          <div>
+            <Nav />
+            <main>
+              <div>This is App.</div>
 
-            <Switch>
-              <Route exact path="/" component={PollsGrid} />
-              <Route path="/authentication" component={LoginSignup} />
-              <Route path="/user/polls" component={MyPolls} />
-              <Route path="/poll/:id" component={ViewPoll} />
-            </Switch>
-          </main>
-        </div>
-      </HashRouter>
+              <Switch>
+                <Route exact path="/" component={PollsGrid} />
+                <Route path="/authentication" component={LoginSignup} />
+                <Route path="/user/polls" component={MyPolls} />
+                <Route path="/poll/:id" component={ViewPoll} />
+              </Switch>
+            </main>
+          </div>
+        </HashRouter>
+      </MuiThemeProvider>
     );
   }
 }

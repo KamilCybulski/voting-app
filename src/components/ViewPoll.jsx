@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const ViewPoll = (props) => (
+const ViewPoll = props => (
   <div>
     This is a poll with id: {props.match.params.id}
   </div>
