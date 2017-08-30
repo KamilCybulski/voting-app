@@ -39,6 +39,7 @@ class LoginSignup extends React.Component {
   }
 
   /**
+   * clearForm
    * set state.email to empty string;
    * set state.pass to empty string;
    * @returns {undefined}
@@ -48,6 +49,7 @@ class LoginSignup extends React.Component {
   }
 
   /**
+   * signUp
    * Create a new user account
    * @returns {Promise} Contains a user
    */
@@ -63,6 +65,7 @@ class LoginSignup extends React.Component {
   }
 
   /**
+   * logIn
    * Sign in a user
    * @returns {Promise} Contains a user
    */

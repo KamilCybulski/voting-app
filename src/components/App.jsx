@@ -32,6 +32,11 @@ class App extends React.Component {
     };
   }
 
+  /**
+   * componenDidMount
+   * set a listener that updates a state after a user logs in or out;
+   * @returns {undefined}
+   */
   componentDidMount = () => {
     const auth = firebase.auth();
     this.authListener = auth.onAuthStateChanged((user) => {
@@ -39,10 +44,21 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * componentWillUnmount
+   * remove all the listeners;
+   * @returns {undefined}
+   */
   componentWillUnmount = () => {
     this.authListener.off();
   }
 
+  /**
+   * logOut
+   * logout the user;
+   * open the logoutDialog
+   * @returns {undefined}
+   */
   logOut = () => {
     firebase.auth().signOut()
       .then(() => {
@@ -50,11 +66,17 @@ class App extends React.Component {
       });
   }
 
+  /**
+   * closeLogoutDialog
+   * set state.logoutDialogOpen to false;
+   * @returns {undefined}
+   */
   closeLogoutDialog = () => {
     this.setState({ logoutDialogOpen: false });
   }
 
 /**
+ * render
  * @return {object} React Element
  */
   render() {
