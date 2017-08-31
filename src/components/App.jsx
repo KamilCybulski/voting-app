@@ -47,7 +47,7 @@ class App extends React.Component {
     });
 
     this.dbListener = db.on('value', (snap) => {
-      this.setState({ polls: Object.values(snap.val()) });
+      this.setState({ polls: snap.val() });
     });
   }
 
@@ -95,6 +95,8 @@ class App extends React.Component {
       <RaisedButton label="OK" primary onTouchTap={this.closeLogoutDialog} />,
     ];
 
+    const myPollsToRender = <MyPolls userLoggedIn={userLoggedIn} />;
+
     return (
       <MuiThemeProvider>
         <HashRouter>
@@ -104,7 +106,7 @@ class App extends React.Component {
               <Switch>
                 <Route exact path="/" component={PollsGrid} />
                 <Route path="/authentication" component={LoginSignup} />
-                <Route path="/user/polls" component={MyPolls} />
+                <Route path="/user/polls" render={() => myPollsToRender} />
                 <Route path="/poll/:id" component={ViewPoll} />
               </Switch>
             </main>
