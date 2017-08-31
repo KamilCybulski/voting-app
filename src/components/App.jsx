@@ -34,13 +34,20 @@ class App extends React.Component {
 
   /**
    * componenDidMount
-   * set a listener that updates a state after a user logs in or out;
+   * set a listener that watches if the user is logged in / out
+   * set a listener that watches for polls database
    * @returns {undefined}
    */
   componentDidMount = () => {
     const auth = firebase.auth();
+    const db = firebase.database().ref('/polls');
+
     this.authListener = auth.onAuthStateChanged((user) => {
       this.setState({ user });
+    });
+
+    this.dbListener = db.on('value', (snap) => {
+      this.setState({ polls: Object.values(snap.val()) });
     });
   }
 
@@ -51,6 +58,7 @@ class App extends React.Component {
    */
   componentWillUnmount = () => {
     this.authListener.off();
+    this.dbListener.off();
   }
 
   /**
