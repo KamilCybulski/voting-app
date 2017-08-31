@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import firebase from 'firebase';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -40,6 +41,31 @@ class MyPolls extends React.Component {
     this.setState({ newPollDialogOpen: false });
   }
 
+  /**
+   * saveToDb
+   * saves the poll held in a state to the database
+   * @returns {Promise} contains void
+   */
+  saveToDB = () => {
+    const data = {
+      name: 'Kirk vs Piccard',
+      owner: 'kamyl@test.pl',
+      options: [
+        {
+          name: 'Piccard',
+          votes: 10,
+        },
+        {
+          name: 'Kirk',
+          votes: 15,
+        },
+      ],
+    };
+
+    const newPoll = firebase.database().ref('/polls').push().key;
+    return firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
+  }
+
 
   /**
    * @returns {object} React element
@@ -77,7 +103,7 @@ class MyPolls extends React.Component {
         <RaisedButton
           label="Make a new poll"
           primary
-          onTouchTap={this.openDialog}
+          onTouchTap={this.saveToDB}
         />
 
         <Dialog
