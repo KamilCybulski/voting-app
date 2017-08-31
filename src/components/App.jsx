@@ -33,7 +33,7 @@ class App extends React.Component {
   }
 
   /**
-   * componenDidMount
+   * componentDidMount
    * set a listener that watches if the user is logged in / out
    * set a listener that watches for polls database
    * @returns {undefined}

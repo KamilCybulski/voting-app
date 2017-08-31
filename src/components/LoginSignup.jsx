@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -13,6 +14,7 @@ class LoginSignup extends React.Component {
    * pass(string) holds value form password TextField
    * errMsg(string) holds any potential error message recieved from database;
    * slideIndex(number [0,1]) controls sliding tabs;
+   * shouldBeRedirected(boolean) if set to true, user will be redirected to Home
    * @constructor
    */
   constructor() {
@@ -23,6 +25,7 @@ class LoginSignup extends React.Component {
       pass: '',
       errMsg: '',
       slideIndex: 0,
+      shouldBeRedirected: false,
     };
   }
 
@@ -40,12 +43,11 @@ class LoginSignup extends React.Component {
 
   /**
    * clearForm
-   * set state.email to empty string;
    * set state.pass to empty string;
    * @returns {undefined}
    */
   clearForm = () => {
-    this.setState({ email: '', pass: '' });
+    this.setState({ pass: '' });
   }
 
   /**
@@ -58,10 +60,13 @@ class LoginSignup extends React.Component {
     const email = this.state.email;
     const pass = this.state.pass;
     auth.createUserWithEmailAndPassword(email, pass)
+      .then(() => {
+        this.setState({ shouldBeRedirected: true });
+      })
       .catch((err) => {
         this.setState({ errMsg: err.message });
+        this.clearForm();
       });
-    this.clearForm();
   }
 
   /**
@@ -74,10 +79,13 @@ class LoginSignup extends React.Component {
     const email = this.state.email;
     const pass = this.state.pass;
     auth.signInWithEmailAndPassword(email, pass)
+      .then(() => {
+        this.setState({ shouldBeRedirected: true });
+      })
       .catch((err) => {
         this.setState({ errMsg: err.message });
+        this.clearForm();
       });
-    this.clearForm();
   }
 
   /**
@@ -155,7 +163,7 @@ class LoginSignup extends React.Component {
       </div>
     );
 
-    return (
+    const forms = (
       <div className="center-items fullscreen">
         <Tabs
           onChange={this.handleSlideIndexChange}
@@ -176,6 +184,10 @@ class LoginSignup extends React.Component {
         </SwipeableViews>
       </div>
     );
+
+    const redirect = <Redirect to="/" />;
+
+    return this.state.shouldBeRedirected ? redirect : forms;
   }
 }
 
