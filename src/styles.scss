@@ -35,6 +35,14 @@
   text-align: center;
 }
 
+.text-big {
+  font-size: 25px;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
 .line-height-std {
   line-height: 1.4em;
 }
@@ -44,6 +52,18 @@
 ===================================================*/
 .padding10 {
   padding: 10px;
+}
+
+.margin20 {
+  margin: 20px;
+}
+
+.margin-top-50 {
+  margin-top: 50px;
+}
+
+.margin-bot-50 {
+  margin-bottom: 50px;
 }
 
 /*===================================================
@@ -58,8 +78,16 @@
   height: 80vh;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .width300 {
   width: 300px;
+}
+
+.width200 {
+  width: 200px;
 }
 
 .height200 {
