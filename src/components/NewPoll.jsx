@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import shortid from 'shortid';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -26,6 +27,7 @@ class NewPoll extends React.Component {
    * @param {object} props Contains user object;
    * newPollName(string) Name of your new poll;
    * newPollOptions(Array of strings) Holds poll's options;
+   * optionIDs(Array of strings) Holds unique keys for Options;
    * @constructor
    */
   constructor(props) {
@@ -33,6 +35,7 @@ class NewPoll extends React.Component {
     this.state = {
       newPollName: '',
       newPollOptions: ['', ''],
+      optionsIDs: [shortid.generate(), shortid.generate()],
     };
   }
 
@@ -65,6 +68,7 @@ class NewPoll extends React.Component {
     this.setState({
       newPollName: '',
       newPollOptions: ['', ''],
+      optionsIDs: [shortid.generate(), shortid.generate()],
     });
   }
 
@@ -99,11 +103,10 @@ class NewPoll extends React.Component {
    * @returns {undefined}
    */
   addOption = () => {
-    const options = this.state.newPollOptions.concat(['']);
+    const newPollOptions = this.state.newPollOptions.concat(['']);
+    const newOptionsIDs = this.state.optionsIDs.concat([shortid.generate()]);
 
-    this.setState({
-      newPollOptions: options,
-    });
+    this.setState({ newPollOptions, newOptionsIDs });
   }
 
   /**
@@ -135,7 +138,7 @@ class NewPoll extends React.Component {
         <div className="margin-top-50 margin-bot-50">
           {options.map((item, index) => (
             <Option
-              key={index}
+              key={this.state.optionsIDs[index]}
               index={index}
               hintText="option"
               text={item}
