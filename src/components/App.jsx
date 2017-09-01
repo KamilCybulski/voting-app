@@ -11,6 +11,7 @@ import PollsGrid from './PollsGrid';
 import LoginSignup from './LoginSignup';
 import MyPolls from './MyPolls';
 import ViewPoll from './ViewPoll';
+import NewPoll from './NewPoll';
 
 injectTapEventPlugin();
 
@@ -97,6 +98,7 @@ class App extends React.Component {
     ];
 
     const myPollsToRender = <MyPolls user={this.state.user} />;
+    const newPollToRender = <NewPoll user={this.state.user} />;
 
     return (
       <MuiThemeProvider>
@@ -108,6 +110,7 @@ class App extends React.Component {
                 <Route exact path="/" component={PollsGrid} />
                 <Route path="/authentication" component={LoginSignup} />
                 <Route path="/user/polls" render={() => myPollsToRender} />
+                <Route path="/user/newpoll" render={() => newPollToRender} />
                 <Route path="/poll/:id" component={ViewPoll} />
               </Switch>
             </main>
