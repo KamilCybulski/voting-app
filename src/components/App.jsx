@@ -18,7 +18,10 @@ class App extends React.Component {
   /**
    * Initiates the state.
    * Polls holds information about all the polls stored in the DB;
-   * User(object || null) holds information about the currently logged user;
+   * User(object || null || undefined)
+   *      object -> user info;
+   *      null -> user is not logged in
+   *      undefined -> unknown, waiting for response from database
    * logoutDialogOpen(boolean) controls the logOut dialog;
    * @constructor
    */
@@ -27,7 +30,7 @@ class App extends React.Component {
 
     this.state = {
       polls: null,
-      user: null,
+      user: undefined,
       logoutDialogOpen: false,
     };
   }
@@ -89,19 +92,17 @@ class App extends React.Component {
    * @returns {object} React element
    */
   render() {
-    const userLoggedIn = !!this.state.user;
-
     const logoutActions = [
       <RaisedButton label="OK" primary onTouchTap={this.closeLogoutDialog} />,
     ];
 
-    const myPollsToRender = <MyPolls userLoggedIn={userLoggedIn} />;
+    const myPollsToRender = <MyPolls userLoggedIn={!!this.state.user} />;
 
     return (
       <MuiThemeProvider>
         <HashRouter>
           <div>
-            <Nav userLoggedIn={userLoggedIn} logOut={this.logOut} />
+            <Nav user={this.state.user} logOut={this.logOut} />
             <main>
               <Switch>
                 <Route exact path="/" component={PollsGrid} />

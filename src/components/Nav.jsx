@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 
-const Nav = ({ userLoggedIn, logOut }) => {
+const Nav = ({ user, logOut }) => {
   const guestNavButtons = (
     <div>
       <Link to="/"><FlatButton label="Home" /></Link>
@@ -20,17 +20,22 @@ const Nav = ({ userLoggedIn, logOut }) => {
     </div>
   );
 
+  // null means user is not logged in;
+  const iconElementRight = user === null ? guestNavButtons : userNavButtons;
+
   return (
     <AppBar
       title="Pointless Polls"
       showMenuIconButton={false}
-      iconElementRight={userLoggedIn ? userNavButtons : guestNavButtons}
+      // undefined means the app does not know wheter user is logged in or not
+      // the app waits for the response from firebase DB;
+      iconElementRight={user !== undefined ? iconElementRight : null}
     />
   );
 };
 
 Nav.propTypes = {
-  userLoggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.object,
   logOut: PropTypes.func.isRequired,
 };
 
