@@ -28,6 +28,7 @@ class NewPoll extends React.Component {
    * newPollName(string) Name of your new poll;
    * newPollOptions(Array of strings) Holds poll's options;
    * optionIDs(Array of strings) Holds unique keys for Options;
+   * dialogOpen(boolean) Controls whether confirmaion dialog should be visible;
    * @constructor
    */
   constructor(props) {
@@ -36,6 +37,7 @@ class NewPoll extends React.Component {
       newPollName: '',
       newPollOptions: ['', ''],
       optionsIDs: [shortid.generate(), shortid.generate()],
+      dialogOpen: false,
     };
   }
 
@@ -69,6 +71,7 @@ class NewPoll extends React.Component {
       newPollName: '',
       newPollOptions: ['', ''],
       optionsIDs: [shortid.generate(), shortid.generate()],
+      dialogOpen: false,
     });
   }
 
@@ -104,9 +107,9 @@ class NewPoll extends React.Component {
    */
   addOption = () => {
     const newPollOptions = this.state.newPollOptions.concat(['']);
-    const newOptionsIDs = this.state.optionsIDs.concat([shortid.generate()]);
+    const optionsIDs = this.state.optionsIDs.concat([shortid.generate()]);
 
-    this.setState({ newPollOptions, newOptionsIDs });
+    this.setState({ newPollOptions, optionsIDs });
   }
 
   /**
@@ -161,6 +164,7 @@ class NewPoll extends React.Component {
             onTouchTap={this.saveToDB}
           />
         </div>
+
       </div>
     );
   }
