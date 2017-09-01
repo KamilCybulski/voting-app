@@ -1,20 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
+import TextField from 'material-ui/TextField';
+
+const Option = ({ index, handleChange, text }) => (
+  <div>
+    <TextField
+      hintText="option"
+      value={text}
+      onChange={e => handleChange(index, e)}
+    />
+  </div>
+);
 
 
 class NewPoll extends React.Component {
   /**
    * @param {object} props Contains user object;
    * newPollName(string) Name of your new poll;
-   * newPollOptions(Array of objects) Holds poll's options;
+   * newPollOptions(Array of strings) Holds poll's options;
    * @constructor
    */
   constructor(props) {
     super(props);
     this.state = {
       newPollName: '',
-      newPollOptions: [],
+      newPollOptions: ['Kirk', 'Piccard', "Maui"],
     };
   }
 
@@ -43,12 +54,28 @@ class NewPoll extends React.Component {
     return firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
   }
 
+  handleChange = (index, e) => {
+    const options = this.state.newPollOptions.slice();
+    options[index] = e.target.value;
+    this.setState({ newPollOptions: options });
+  }
+
   /**
    * @returns {object} React element
    */
   render() {
+    const options = this.state.newPollOptions;
+
     return (
-      <h1>yoyoyoyo</h1>
+      <div className="fullscreen flex-column">
+        {options.map((item, index) => (
+          <Option
+            index={index}
+            text={item}
+            handleChange={this.handleChange}
+          />
+        ))}
+      </div>
     );
   }
 }
