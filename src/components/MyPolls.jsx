@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
+import CircularProgress from 'material-ui/CircularProgress';
 import { Link } from 'react-router-dom';
 
 class MyPolls extends React.Component {
@@ -117,12 +118,23 @@ class MyPolls extends React.Component {
       </div>
     );
 
-    return this.props.userLoggedIn ? userUI : noUserMsg;
+    const loader = (
+      <div className="fullscreen center-items">
+        <CircularProgress size={120} thickness={8} />
+      </div>
+    );
+
+    // null means user is not logged in;
+    const viewToRender = this.props.user === null ? noUserMsg : userUI;
+
+    // undefined means the app does not know wheter user is logged in or not
+    // the app waits for the response from firebase DB;
+    return this.props.user !== undefined ? viewToRender : loader;
   }
 }
 
 MyPolls.propTypes = {
-  userLoggedIn: PropTypes.bool.isRequired,
+  user: PropTypes.object,
 };
 
 export default MyPolls;

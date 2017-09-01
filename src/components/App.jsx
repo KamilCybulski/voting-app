@@ -96,7 +96,7 @@ class App extends React.Component {
       <RaisedButton label="OK" primary onTouchTap={this.closeLogoutDialog} />,
     ];
 
-    const myPollsToRender = <MyPolls userLoggedIn={!!this.state.user} />;
+    const myPollsToRender = <MyPolls user={this.state.user} />;
 
     return (
       <MuiThemeProvider>
