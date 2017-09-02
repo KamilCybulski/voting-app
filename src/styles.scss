@@ -10,6 +10,13 @@
   align-items: center;
 }
 
+.flex-row-wrap {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .flex-column {
   display: flex;
   flex-flow: column nowrap;
@@ -52,6 +59,10 @@
 ===================================================*/
 .padding10 {
   padding: 10px;
+}
+
+.padding50 {
+  padding: 50px;
 }
 
 .margin20 {

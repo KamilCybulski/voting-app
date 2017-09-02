@@ -30,7 +30,7 @@ class App extends React.Component {
     super();
 
     this.state = {
-      polls: null,
+      polls: undefined,
       user: undefined,
       logoutDialogOpen: false,
     };
@@ -99,6 +99,9 @@ class App extends React.Component {
 
     const myPollsToRender = <MyPolls user={this.state.user} />;
     const newPollToRender = <NewPoll user={this.state.user} />;
+    const pollsGridToRender = (
+      <PollsGrid polls={this.state.polls} />
+    );
 
     return (
       <MuiThemeProvider>
@@ -107,7 +110,7 @@ class App extends React.Component {
             <Nav user={this.state.user} logOut={this.logOut} />
             <main>
               <Switch>
-                <Route exact path="/" component={PollsGrid} />
+                <Route exact path="/" render={() => pollsGridToRender} />
                 <Route path="/authentication" component={LoginSignup} />
                 <Route path="/user/polls" render={() => myPollsToRender} />
                 <Route path="/user/newpoll" render={() => newPollToRender} />
