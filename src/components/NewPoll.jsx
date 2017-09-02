@@ -7,6 +7,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import ErrorMessage from '../utils/ErrorMessage';
+import NoUserMessage from '../utils/NoUserMessage';
+import Loader from '../utils/Loader';
 
 
 const Option = ({ index, handleOptionsChange, text, removeOption }) => (
@@ -170,7 +172,7 @@ class NewPoll extends React.Component {
   render() {
     const options = this.state.newPollOptions;
 
-    return (
+    const userInterface = (
       <div className="full-width flex-column margin-top-50">
         <h1 className="text-big text-bold">
           New poll
@@ -224,6 +226,15 @@ class NewPoll extends React.Component {
 
       </div>
     );
+
+    // null means user is not logged in;
+    const viewToRender = this.props.user === null
+                            ? <NoUserMessage />
+                            : userInterface;
+
+    // undefined means the app does not know wheter user is logged in or not
+    // the app waits for the response from firebase DB;
+    return this.props.user !== undefined ? viewToRender : <Loader />;
   }
 }
 
