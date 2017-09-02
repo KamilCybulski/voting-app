@@ -1,21 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { List, ListItem } from 'material-ui/List';
+import LensIcon from 'material-ui/svg-icons/image/lens';
+import Divider from 'material-ui/Divider';
+import { cyan500 } from 'material-ui/styles/colors';
 import Loader from '../utils/Loader';
-import Thumbnail from '../utils/Thumbnail';
+
 
 function PollsGrid({ polls }) {
   return polls === undefined
     ? <Loader />
-    : <div className="full-width flex-row-wrap">
-      {Object.keys(polls).map(key => (
-        <Thumbnail key={key} id={key} name={polls[key].name} />
+    : <div className="center-items margin-top-50">
+      <h1 className="text-big text-bold text-center line-height-std">
+        Check out all these pointless polls!
+      </h1>
+      <List className="margin-top-50">
+        {Object.keys(polls).map(key => (
+          <div key={key}>
+            <ListItem
+              primaryText={polls[key].name}
+              secondaryText={`made by: ${polls[key].owner}`}
+              leftIcon={<LensIcon color={cyan500} />}
+            />
+            <Divider />
+          </div>
         ))}
+      </List>
     </div>;
 }
-
-PollsGrid.defaultProps = {
-  polls: {},
-};
 
 PollsGrid.propTypes = {
   polls: PropTypes.objectOf(PropTypes.object),
