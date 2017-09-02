@@ -4,15 +4,23 @@ import firebase from 'firebase';
 import shortid from 'shortid';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import ErrorMessage from '../utils/ErrorMessage';
 
 
-const Option = ({ index, handleOptionsChange, text }) => (
+const Option = ({ index, handleOptionsChange, text, removeOption }) => (
   <div>
     <TextField
+      style={{ width: '226px' }}
       hintText="option"
       value={text}
       onChange={e => handleOptionsChange(index, e)}
+    />
+    <FlatButton
+      style={{ minWidth: '30px' }}
+      icon={<ClearIcon />}
+      onTouchTap={() => removeOption(index)}
     />
   </div>
 );
@@ -21,6 +29,7 @@ Option.propTypes = {
   index: PropTypes.number.isRequired,
   handleOptionsChange: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
+  removeOption: PropTypes.func.isRequired,
 };
 
 class NewPoll extends React.Component {
@@ -145,6 +154,17 @@ class NewPoll extends React.Component {
   }
 
   /**
+   * removeOption
+   * removes an item with given index from newPollOptions array
+   * @param {number} index Index of the item to be removed;
+   * @returns {undefined}
+   */
+  removeOption = (index) => {
+    const options = this.state.newPollOptions.filter((e, i) => i !== index);
+    this.setState({ newPollOptions: options });
+  }
+
+  /**
    * @returns {object} React element
    */
   render() {
@@ -180,6 +200,7 @@ class NewPoll extends React.Component {
               hintText="option"
               text={item}
               handleOptionsChange={this.handleOptionsChange}
+              removeOption={this.removeOption}
             />
           ))}
         </div>
