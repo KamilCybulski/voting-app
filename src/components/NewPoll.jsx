@@ -22,6 +22,7 @@ const Option = ({ index, handleOptionsChange, text, removeOption }) => (
     />
     <FlatButton
       style={{ minWidth: '30px' }}
+      secondary
       icon={<ClearIcon />}
       onTouchTap={() => removeOption(index)}
     />
