@@ -5,6 +5,7 @@ import shortid from 'shortid';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import Dialog from 'material-ui/Dialog';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import ErrorMessage from '../utils/ErrorMessage';
 import NoUserMessage from '../utils/NoUserMessage';
@@ -40,8 +41,11 @@ class NewPoll extends React.Component {
    * newPollName(string) Name of your new poll;
    * newPollOptions(Array of strings) Holds poll's options;
    * optionIDs(Array of strings) Holds unique keys for Options;
-   * nameErrMsg(string) contains error message for invalid poll name
-   * optionsErrMsg(string) contains error message for invalid options
+   * nameErrMsg(string) contains error message for invalid poll name;
+   * optionsErrMsg(string) contains error message for invalid options;
+   * dialogTitle(string) contains a title for confirmation dialog;
+   * dialogMsg(string) contains a message to display in confirmation dialog;
+   * dialogOpen(boolean) controls visibility of confirmation dialog
    * @constructor
    */
   constructor(props) {
@@ -52,6 +56,9 @@ class NewPoll extends React.Component {
       optionsIDs: [shortid.generate(), shortid.generate()],
       nameErrMsg: '',
       optionsErrMsg: '',
+      dialogTitle: '',
+      dialogMsg: '',
+      dialogOpen: false,
     };
   }
 
@@ -68,12 +75,43 @@ class NewPoll extends React.Component {
   }
 
   /**
-   * saveToDB
+   * submitPoll
    * saves the poll held in a state to the database;
    * @returns {undefined}
    */
-  saveToDB = () => {
+  submitPoll = () => {
     this.clearErrorMessages();
+
+    const saveToDB = () => {
+      const options = this.state.newPollOptions.map(item => ({
+        name: item,
+        votes: 0,
+      }));
+
+      const data = {
+        name: this.state.newPollName,
+        owner: this.props.user.email,
+        options,
+      };
+      const newPoll = firebase.database().ref('/polls').push().key;
+      return firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
+    };
+
+    const handleSuccess = () => {
+      this.resetState();
+      this.setState({
+        dialogTitle: 'Congratulations!',
+        dialogMsg: 'You have created a new poll!',
+        dialogOpen: true,
+      });
+    };
+
+    const handleFailure = () => {
+      this.setState({
+        dialogTitle: 'Error',
+        dialogMsg: 'Something went wrong. Please try again',
+      });
+    };
 
     if (!this.state.newPollName) {
       this.setState({
@@ -88,18 +126,9 @@ class NewPoll extends React.Component {
         optionsErrMsg: 'Cannot submit empty options',
       });
     } else {
-      const options = this.state.newPollOptions.map(item => ({
-        name: item,
-        votes: 0,
-      }));
-
-      const data = {
-        name: this.state.newPollName,
-        owner: this.props.user.email,
-        options,
-      };
-      const newPoll = firebase.database().ref('/polls').push().key;
-      firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
+      saveToDB()
+        .then(handleSuccess)
+        .catch(handleFailure);
     }
   }
 
@@ -115,6 +144,7 @@ class NewPoll extends React.Component {
       optionsIDs: [shortid.generate(), shortid.generate()],
       nameErrMsg: '',
       optionsErrMsg: '',
+      dialogMsg: '',
     });
   }
 
@@ -167,10 +197,23 @@ class NewPoll extends React.Component {
   }
 
   /**
+   * closeDialog
+   * closes confirmation dialog;
+   * @returns {undefined}
+   */
+  closeDialog = () => {
+    this.setState({ dialogOpen: false });
+  }
+
+  /**
    * @returns {object} React element
    */
   render() {
     const options = this.state.newPollOptions;
+
+    const dialogActions = [
+      <RaisedButton label="OK" primary onTouchTap={this.closeDialog} />,
+    ];
 
     const userInterface = (
       <div className="full-width flex-column margin-top-50">
@@ -220,10 +263,20 @@ class NewPoll extends React.Component {
             className="width200"
             label="submit"
             primary
-            onTouchTap={this.saveToDB}
+            onTouchTap={this.submitPoll}
           />
         </div>
 
+        <Dialog
+          className="width300"
+          title={this.state.dialogTitle}
+          modal={false}
+          actions={dialogActions}
+          open={this.state.dialogOpen}
+          onRequestClose={this.closeDialog}
+        >
+          {this.state.dialogMsg}
+        </Dialog>
       </div>
     );
 
