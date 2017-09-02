@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import shortid from 'shortid';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import ErrorMessage from '../utils/ErrorMessage';
 
 
 const Option = ({ index, handleOptionsChange, text }) => (
@@ -162,7 +163,7 @@ class NewPoll extends React.Component {
           />
         </div>
 
-        {this.state.nameErrMsg}
+        <ErrorMessage text={this.state.nameErrMsg} />
 
         <RaisedButton
           className="width200 margin20"
@@ -183,7 +184,7 @@ class NewPoll extends React.Component {
           ))}
         </div>
 
-        {this.state.optionsErrMsg}
+        <ErrorMessage text={this.state.optionsErrMsg} />
 
         <div className="width300 flex-column margin-bot-50">
           <RaisedButton
