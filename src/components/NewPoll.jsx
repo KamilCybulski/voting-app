@@ -28,7 +28,8 @@ class NewPoll extends React.Component {
    * newPollName(string) Name of your new poll;
    * newPollOptions(Array of strings) Holds poll's options;
    * optionIDs(Array of strings) Holds unique keys for Options;
-   * dialogOpen(boolean) Controls whether confirmaion dialog should be visible;
+   * nameErrMsg(string) contains error message for invalid poll name
+   * optionsErrMsg(string) contains error message for invalid options
    * @constructor
    */
   constructor(props) {
@@ -37,28 +38,57 @@ class NewPoll extends React.Component {
       newPollName: '',
       newPollOptions: ['', ''],
       optionsIDs: [shortid.generate(), shortid.generate()],
-      dialogOpen: false,
+      nameErrMsg: '',
+      optionsErrMsg: '',
     };
+  }
+
+  /**
+   * clearErrorMessages
+   * Sets state { nameErrMsg, optionsErrMsg } to empty strings;
+   * @returns {undefined}
+   */
+  clearErrorMessages = () => {
+    this.setState({
+      nameErrMsg: '',
+      optionsErrMsg: '',
+    });
   }
 
   /**
    * saveToDB
    * saves the poll held in a state to the database;
-   * @returns {Promise} Contains void;
+   * @returns {undefined}
    */
   saveToDB = () => {
-    const options = this.state.newPollOptions.map(item => ({
-      name: item,
-      votes: 0,
-    }));
+    this.clearErrorMessages();
 
-    const data = {
-      name: this.state.newPollName,
-      owner: this.props.user.email,
-      options,
-    };
-    const newPoll = firebase.database().ref('/polls').push().key;
-    return firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
+    if (!this.state.newPollName) {
+      this.setState({
+        nameErrMsg: 'Invalid poll name',
+      });
+    } else if (this.state.newPollOptions.length < 2) {
+      this.setState({
+        optionsErrMsg: 'At least 2 options required',
+      });
+    } else if (this.state.newPollOptions.some(str => str === '')) {
+      this.setState({
+        optionsErrMsg: 'Cannot submit empty options',
+      });
+    } else {
+      const options = this.state.newPollOptions.map(item => ({
+        name: item,
+        votes: 0,
+      }));
+
+      const data = {
+        name: this.state.newPollName,
+        owner: this.props.user.email,
+        options,
+      };
+      const newPoll = firebase.database().ref('/polls').push().key;
+      firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
+    }
   }
 
   /**
@@ -71,7 +101,8 @@ class NewPoll extends React.Component {
       newPollName: '',
       newPollOptions: ['', ''],
       optionsIDs: [shortid.generate(), shortid.generate()],
-      dialogOpen: false,
+      nameErrMsg: '',
+      optionsErrMsg: '',
     });
   }
 
@@ -131,6 +162,8 @@ class NewPoll extends React.Component {
           />
         </div>
 
+        {this.state.nameErrMsg}
+
         <RaisedButton
           className="width200 margin20"
           primary
@@ -149,6 +182,8 @@ class NewPoll extends React.Component {
             />
           ))}
         </div>
+
+        {this.state.optionsErrMsg}
 
         <div className="width300 flex-column margin-bot-50">
           <RaisedButton
