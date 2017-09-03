@@ -15,10 +15,10 @@ import Loader from '../utils/Loader';
  */
 const vote = (pollID, optionIndex, uid) => {
   const option = firebase.database().ref(`/polls/${pollID}/options/${optionIndex}/votes`);
-  const usersVote = firebase.database().ref(`/voters/${uid}/${pollID}`);
+  const usersVote = firebase.database().ref(`/polls/${pollID}/voters/${uid}`);
 
   return option.transaction(current => current + 1)
-    .then(() => usersVote.set(true));
+      .then(() => usersVote.set(true));
 };
 
 const notLoggedMsg = (
@@ -51,7 +51,9 @@ const ViewPoll = ({ poll, user, pollID }) => (
             className="width200 margin10"
             key={index}
             label={option.name}
-            onTouchTap={() => vote(pollID, index, user.uid)}
+            onClick={() => vote(pollID, index, user.uid)}
+            disabled={poll.voters && Object.prototype.hasOwnProperty
+                                      .call(poll.voters, user.uid)}
           />
         ))}
       </div>}
