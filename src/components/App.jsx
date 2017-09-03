@@ -7,7 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Nav from './Nav';
-import PollsGrid from './PollsGrid';
+import PollsList from '../utils/PollsList';
 import LoginSignup from './LoginSignup';
 import MyPolls from './MyPolls';
 import ViewPoll from './ViewPoll';
@@ -99,8 +99,15 @@ class App extends React.Component {
 
     const myPollsToRender = <MyPolls user={this.state.user} />;
     const newPollToRender = <NewPoll user={this.state.user} />;
-    const pollsGridToRender = (
-      <PollsGrid polls={this.state.polls} />
+    const PollsListToRender = (
+      <PollsList polls={this.state.polls} />
+    );
+    const renderPoll = props => (
+      <ViewPoll
+        poll={this.state.polls && this.state.polls[props.match.params.id]}
+        user={this.state.user}
+        pollID={props.match.params.id}
+      />
     );
 
     return (
@@ -110,11 +117,11 @@ class App extends React.Component {
             <Nav user={this.state.user} logOut={this.logOut} />
             <main>
               <Switch>
-                <Route exact path="/" render={() => pollsGridToRender} />
+                <Route exact path="/" render={() => PollsListToRender} />
                 <Route path="/authentication" component={LoginSignup} />
                 <Route path="/user/polls" render={() => myPollsToRender} />
                 <Route path="/user/newpoll" render={() => newPollToRender} />
-                <Route path="/poll/:id" component={ViewPoll} />
+                <Route path="/poll/:id" render={renderPoll} />
               </Switch>
             </main>
 

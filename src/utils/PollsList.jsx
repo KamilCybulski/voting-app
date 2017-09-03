@@ -8,7 +8,7 @@ import { cyan500 } from 'material-ui/styles/colors';
 import Loader from '../utils/Loader';
 
 
-function PollsGrid({ polls }) {
+function PollsList({ polls }) {
   return polls === undefined
     ? <Loader />
     : <div className="center-items margin-top-50 margin-bot-50">
@@ -32,8 +32,8 @@ function PollsGrid({ polls }) {
     </div>;
 }
 
-PollsGrid.propTypes = {
+PollsList.propTypes = {
   polls: PropTypes.objectOf(PropTypes.object),
 };
 
-export default PollsGrid;
+export default PollsList;
