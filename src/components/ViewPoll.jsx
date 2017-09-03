@@ -10,13 +10,22 @@ import Loader from '../utils/Loader';
  * vote for an option
  * @param {string} pollID Databse key for a given poll;
  * @param {number} optionIndex Index of an option in the options array;
+ * @param {string} uid User's id, used to keep track of who had voted on what;
  * @returns {Promise} Contains {committed: boolean, snapshot: nullable}
  */
-const vote = (pollID, optionIndex) => {
+const vote = (pollID, optionIndex, uid) => {
   const option = firebase.database().ref(`/polls/${pollID}/options/${optionIndex}/votes`);
+  const usersVote = firebase.database().ref(`/voters/${uid}/${pollID}`);
 
-  return option.transaction(current => current + 1);
+  return option.transaction(current => current + 1)
+    .then(() => usersVote.set(true));
 };
+
+const notLoggedMsg = (
+  <p className="text-center text-red" >
+    You need to be logged in to vote
+  </p>
+);
 
 const ViewPoll = ({ poll, user, pollID }) => (
   <div>
@@ -36,13 +45,13 @@ const ViewPoll = ({ poll, user, pollID }) => (
             />
           </VictoryChart>
         </div>
-        {!user ? null : poll.options.map((option, index) => (
+        {!user ? notLoggedMsg : poll.options.map((option, index) => (
           <RaisedButton
             primary
             className="width200 margin10"
             key={index}
             label={option.name}
-            onTouchTap={() => vote(pollID, index)}
+            onTouchTap={() => vote(pollID, index, user.uid)}
           />
         ))}
       </div>}
