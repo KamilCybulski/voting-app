@@ -91,7 +91,7 @@ class NewPoll extends React.Component {
 
       const data = {
         name: this.state.newPollName,
-        owner: this.props.user.email,
+        owner: this.props.user.uid,
         options,
       };
       const newPoll = firebase.database().ref('/polls').push().key;
@@ -297,7 +297,7 @@ NewPoll.defaultProps = {
 };
 
 NewPoll.propTypes = {
-  user: PropTypes.shape({ email: PropTypes.string.isRequired }),
+  user: PropTypes.shape({ uid: PropTypes.string.isRequired }),
 };
 
 export default NewPoll;
