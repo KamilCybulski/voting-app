@@ -14,11 +14,25 @@ import Loader from '../utils/Loader';
  * @returns {Promise} Contains {committed: boolean, snapshot: nullable}
  */
 const vote = (pollID, optionIndex, uid) => {
-  const option = firebase.database().ref(`/polls/${pollID}/options/${optionIndex}/votes`);
-  const usersVote = firebase.database().ref(`/polls/${pollID}/voters/${uid}`);
+  const polls = firebase.database().ref('/polls');
+  const votersRef = polls.child(pollID).child('voters');
 
-  return option.transaction(current => current + 1)
-      .then(() => usersVote.set(true));
+  const makeAVote = () => {
+    const option = polls.child(`${pollID}/options/${optionIndex}/votes`);
+    const usersVote = polls.child(`${pollID}/voters/${uid}`);
+
+    return usersVote.set(true)
+      .then(option.transaction(current => current + 1));
+  };
+
+  votersRef.once('value')
+    .then(snap => snap.val())
+    .then((voters) => {
+      if (!voters || !Object.prototype.hasOwnProperty.call(voters, uid)) {
+        return makeAVote();
+      }
+      return undefined;
+    });
 };
 
 const notLoggedMsg = (
