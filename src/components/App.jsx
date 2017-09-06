@@ -87,6 +87,11 @@ class App extends React.Component {
     this.setState({ logoutDialogOpen: false });
   }
 
+  removePoll = (pollID) => {
+    const poll = firebase.database().ref(`/polls/${pollID}`);
+    poll.remove();
+  }
+
 
   /**
    * render
@@ -101,6 +106,7 @@ class App extends React.Component {
       <MyPolls
         user={this.state.user}
         polls={this.state.polls}
+        removePoll={this.removePoll}
       />
     );
     const newPollToRender = <NewPoll user={this.state.user} />;

@@ -10,7 +10,7 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import NoUserMessage from '../utils/NoUserMessage';
 import Loader from '../utils/Loader';
 
-const MyPolls = ({ user, polls }) => {
+const MyPolls = ({ user, polls, removePoll }) => {
   // null means user is not logged in;
   if (user === null) {
     return <NoUserMessage />;
@@ -44,6 +44,7 @@ const MyPolls = ({ user, polls }) => {
                     style={{ minWidth: '30px' }}
                     secondary
                     icon={<ClearIcon />}
+                    onClick={() => { removePoll(poll.id); }}
                   />
                 </div>
                 <Divider />
@@ -56,7 +57,15 @@ const MyPolls = ({ user, polls }) => {
 };
 
 MyPolls.propTypes = {
-  user: PropTypes.shape({ email: PropTypes.string }),
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    uid: PropTypes.string,
+  }),
+  polls: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.string,
+  }),
+  removePoll: PropTypes.func.isRequired,
 };
 
 export default MyPolls;
