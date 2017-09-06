@@ -97,7 +97,12 @@ class App extends React.Component {
       <RaisedButton label="OK" primary onTouchTap={this.closeLogoutDialog} />,
     ];
 
-    const myPollsToRender = <MyPolls user={this.state.user} />;
+    const myPollsToRender = (
+      <MyPolls
+        user={this.state.user}
+        polls={this.state.polls}
+      />
+    );
     const newPollToRender = <NewPoll user={this.state.user} />;
     const PollsListToRender = (
       <PollsList polls={this.state.polls} />
