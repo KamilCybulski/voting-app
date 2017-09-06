@@ -89,13 +89,15 @@ class NewPoll extends React.Component {
         votes: 0,
       }));
 
+      const newPoll = firebase.database().ref('/polls').push().key;
+
       const data = {
+        id: newPoll,
         name: this.state.newPollName,
         owner: this.props.user.email,
         owners_id: this.props.user.uid,
         options,
       };
-      const newPoll = firebase.database().ref('/polls').push().key;
       return firebase.database().ref().update({ [`/polls/${newPoll}`]: data });
     };
 
