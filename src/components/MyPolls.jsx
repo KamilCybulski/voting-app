@@ -21,13 +21,13 @@ const MyPolls = ({ user, polls, removePoll }) => {
   }
 
   return (
-    <div className="fullscreen flex-column">
-      <div className="center-items">
+    <div className="fullscreen flex-column-flex-start">
+      <div className="center-items margin-top-50 margin-bot-50">
         <Link to="/user/newpoll">
           <RaisedButton label="Make a new poll" primary />
         </Link>
       </div>
-      <div className="center-items">
+      <div className="center-items margin-top-50 margin-bot-50">
         <List>
           {Object.values(polls)
             .filter(poll => poll.owners_id === user.uid)
@@ -36,6 +36,7 @@ const MyPolls = ({ user, polls, removePoll }) => {
                 <div className="flex-row width200">
                   <Link to={`/poll/${poll.id}`} className="no-text-decor">
                     <ListItem
+                      style={{ width: '170px' }}
                       primaryText={poll.name}
                       secondaryText="See the poll results"
                     />

@@ -29,6 +29,13 @@ body {
   align-items: center;
 }
 
+.flex-column-flex-start {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .center-items {
   display: flex;
   flex-flow: column nowrap;
