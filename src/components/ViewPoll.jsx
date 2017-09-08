@@ -46,6 +46,9 @@ const ViewPoll = ({ poll, user, pollID }) => (
     {!poll
       ? <Loader />
       : <div className="full-width flex-column" >
+        <h1 className="text-center text-big text-bold margin-top-50">
+          {poll.name}
+        </h1>
         <div className="width300 center-items">
           <VictoryChart
             domainPadding={30}
