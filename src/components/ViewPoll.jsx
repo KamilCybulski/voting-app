@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
-import { VictoryBar, VictoryChart, VictoryTheme } from 'victory';
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryAxis } from 'victory';
 import RaisedButton from 'material-ui/RaisedButton';
 import Loader from '../utils/Loader';
 
@@ -54,6 +54,13 @@ const ViewPoll = ({ poll, user, pollID }) => (
             domainPadding={30}
             theme={VictoryTheme.material}
           >
+            <VictoryAxis />
+            <VictoryAxis
+              dependentAxis
+              tickCount={4}
+              domain={[0, poll.options.reduce((acc, option) =>
+              (option.votes > acc ? option.votes : acc), 10)]}
+            />
             <VictoryBar
               data={poll.options.map(option => ({
                 x: option.name,
