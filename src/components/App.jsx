@@ -7,7 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import Nav from './Nav';
-import PollsList from '../utils/PollsList';
+import PollsList from './PollsList';
 import LoginSignup from './LoginSignup';
 import MyPolls from './MyPolls';
 import ViewPoll from './ViewPoll';
