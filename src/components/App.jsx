@@ -87,11 +87,6 @@ class App extends React.Component {
     this.setState({ logoutDialogOpen: false });
   }
 
-  removePoll = (pollID) => {
-    const poll = firebase.database().ref(`/polls/${pollID}`);
-    poll.remove();
-  }
-
 
   /**
    * render
