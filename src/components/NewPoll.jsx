@@ -117,6 +117,19 @@ class NewPoll extends React.Component {
       });
     };
 
+    const haveDuplicates = (arr) => {
+      const counts = {};
+
+      for (const o of arr) {
+        if (counts[o] === undefined) {
+          counts[o] = true;
+        } else {
+          return true;
+        }
+      }
+      return false;
+    };
+
     if (!this.state.newPollName) {
       this.setState({
         nameErrMsg: 'Invalid poll name',
@@ -128,6 +141,10 @@ class NewPoll extends React.Component {
     } else if (this.state.newPollOptions.some(str => str === '')) {
       this.setState({
         optionsErrMsg: 'Cannot submit empty options',
+      });
+    } else if (haveDuplicates(this.state.newPollOptions)) {
+      this.setState({
+        optionsErrMsg: 'Cannot submit identical options',
       });
     } else {
       saveToDB()
