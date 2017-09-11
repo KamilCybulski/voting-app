@@ -142,6 +142,10 @@ class NewPoll extends React.Component {
       this.setState({
         optionsErrMsg: 'Cannot submit empty options',
       });
+    } else if (this.state.newPollOptions.some(str => str.length > 20)) {
+      this.setState({
+        optionsErrMsg: 'Options should not be longer then 20 characters',
+      });
     } else if (haveDuplicates(this.state.newPollOptions)) {
       this.setState({
         optionsErrMsg: 'Cannot submit identical options',
