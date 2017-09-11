@@ -23,6 +23,13 @@ const Nav = ({ user, logOut }) => {
   // null means user is not logged in;
   const iconElementRight = user === null ? guestNavButtons : userNavButtons;
 
+  const iconStyleRight = {
+    margin: '0',
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    alignItems: 'center',
+  };
+
   return (
     <AppBar
       title="Pointless Polls"
@@ -30,6 +37,7 @@ const Nav = ({ user, logOut }) => {
       // undefined means the app does not know wheter user is logged in or not
       // the app waits for the response from firebase DB;
       iconElementRight={user !== undefined ? iconElementRight : null}
+      iconStyleRight={iconStyleRight}
     />
   );
 };
