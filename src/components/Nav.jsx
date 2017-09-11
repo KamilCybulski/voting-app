@@ -30,9 +30,14 @@ const Nav = ({ user, logOut }) => {
     alignItems: 'center',
   };
 
+  const titleStyle = {
+    textDecoration: 'none',
+    color: '#fff',
+  };
+
   return (
     <AppBar
-      title="Pointless Polls"
+      title={<Link style={titleStyle} to="/">Pointless Polls</Link>}
       showMenuIconButton={false}
       // undefined means the app does not know wheter user is logged in or not
       // the app waits for the response from firebase DB;
