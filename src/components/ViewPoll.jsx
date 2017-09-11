@@ -35,6 +35,12 @@ const vote = (pollID, optionIndex, uid) => {
     });
 };
 
+const truncate = str => (
+  str.length < 15
+    ? str
+    : `${str.substring(0, 12)}...`
+);
+
 const notLoggedMsg = (
   <p className="text-center text-red" >
     You need to be logged in to vote
@@ -74,7 +80,7 @@ const ViewPoll = ({ poll, user, pollID }) => (
             primary
             className="width200 margin10"
             key={index}
-            label={option.name}
+            label={truncate(option.name)}
             onClick={() => vote(pollID, index, user.uid)}
             disabled={poll.voters && Object.prototype.hasOwnProperty
                                       .call(poll.voters, user.uid)}
