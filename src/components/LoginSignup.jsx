@@ -42,6 +42,20 @@ class LoginSignup extends React.Component {
     this.setState({ pass: e.target.value });
   }
 
+  loginOnEnterKey = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.logIn();
+    }
+  }
+
+  signupOnEnterKey = (e) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      this.signUp();
+    }
+  }
+
   /**
    * clearForm
    * set state.pass to empty string;
@@ -111,6 +125,7 @@ class LoginSignup extends React.Component {
           style={textFieldStyle}
           value={this.state.email}
           onChange={this.handleEmailChange}
+          onKeyUp={this.loginOnEnterKey}
         />
         <br />
         <TextField
@@ -119,6 +134,7 @@ class LoginSignup extends React.Component {
           style={textFieldStyle}
           value={this.state.pass}
           onChange={this.handlePassChange}
+          onKeyUp={this.loginOnEnterKey}
         />
         <br />
         <ErrorMessage text={this.state.errMsg} />
@@ -138,6 +154,7 @@ class LoginSignup extends React.Component {
           style={textFieldStyle}
           value={this.state.email}
           onChange={this.handleEmailChange}
+          onKeyUp={this.signupOnEnterKey}
         />
         <br />
         <TextField
@@ -146,6 +163,7 @@ class LoginSignup extends React.Component {
           style={textFieldStyle}
           value={this.state.pass}
           onChange={this.handlePassChange}
+          onKeyUp={this.signupOnEnterKey}
         />
         <br />
         <ErrorMessage text={this.state.errMsg} />
